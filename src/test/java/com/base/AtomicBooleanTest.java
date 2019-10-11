@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
 public class AtomicBooleanTest {
 
@@ -35,10 +36,24 @@ public class AtomicBooleanTest {
 
     }
 
+    @Test
+    public void test3() {
+        AtomicReferenceFieldUpdater<A, Integer> aIntegerAtomicReferenceFieldUpdater =
+                AtomicReferenceFieldUpdater.newUpdater(A.class, Integer.class, "code");
+
+        A a1 = A.builder().code(100).build();
+
+        System.out.println(aIntegerAtomicReferenceFieldUpdater.compareAndSet(a1, 100, 200));
+
+        System.out.println(a1);
+    }
+
     @Data
     @Builder
     private static class A {
         private Integer value;
         private String message;
+
+        public volatile Integer code;
     }
 }
