@@ -70,9 +70,16 @@ public class JcToolTest {
     }
 
     @Test
-    public void test5(){
+    public void test5() {
         AtomicInteger atomicInteger = new AtomicInteger();
-        log.info("{}",atomicInteger.getAndIncrement());
+        log.info("{}", atomicInteger.getAndIncrement());
+    }
+
+    @Test
+    public void test6() {
+        String name = JcToolTest.class.getName();
+
+        log.info("{}", name);
     }
 
 }
