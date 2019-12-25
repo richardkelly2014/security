@@ -100,6 +100,30 @@ public strictfp class S2Point implements Comparable<S2Point> {
         return S2Point.mul(p, norm);
     }
 
+    /**
+     * 计算3个点夹角
+     *
+     * @param start
+     * @param middle
+     * @param end
+     * @return
+     */
+    public static double angle(S2Point start, S2Point middle, S2Point end) {
+        double x1 = start.x, y1 = start.y, z1 = start.z;
+        double x2 = middle.x, y2 = middle.y, z2 = middle.z;
+        double x3 = end.x, y3 = end.y, z3 = end.z;
+
+        double _p1p2 = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2) + Math.pow(z2 - z1, 2));
+        double _p2p3 = Math.sqrt(Math.pow(x3 - x2, 2) + Math.pow(y3 - y2, 2) + Math.pow(z3 - z2, 2));
+
+        double _p = (x1 - x2) * (x3 - x2) + (y1 - y2) * (y3 - y2) + (z1 - z2) * (z3 - z2);
+
+        double radians = Math.acos(_p / (_p1p2 * _p2p3));
+
+        double degrees = radians * (180 / Math.PI);
+        return degrees;
+    }
+
     public double get(int axis) {
         return (axis == 0) ? x : (axis == 1) ? y : z;
     }
