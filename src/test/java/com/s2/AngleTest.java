@@ -33,24 +33,6 @@ public class AngleTest {
 
     @Test
     public void test4() {
-        WayLine line = WayLine.builder()
-                .start(WayPoint.builder().lng(116.352456).lat(40.009778).build())
-                .end(WayPoint.builder().lng(116.355053).lat(40.008956).build())
-                .build();
-
-        WayLine other = WayLine.builder()
-                .start(WayPoint.builder().lng(116.354967).lat(40.009909).build())
-                .end(WayPoint.builder().lng(116.360567).lat(40.010879).build())
-                .build();
-
-        log.info("{}", line.angle(other));
-
-        log.info("{}", PointCalculateUtil.getAngleOnPlane(116.352456, 40.009778,
-                116.355053, 40.008956));
-
-        log.info("{}", PointCalculateUtil.getAngleOnPlane(116.354967, 40.009909,
-                116.360567, 40.010879));
-
         S2Line s2Line = S2Line.builder()
                 .start(S2LatLng.fromLocation(116.352456, 40.009778))
                 .end(S2LatLng.fromLocation(116.355053, 40.008956))
@@ -58,7 +40,7 @@ public class AngleTest {
 
         S2Line s2LineOther = S2Line.builder()
                 .start(S2LatLng.fromLocation(116.354967, 40.009909))
-                .end(S2LatLng.fromLocation(116.360567, 40.010879))
+                .end(S2LatLng.fromLocation(116.353422, 40.003532))
                 .build();
 
         log.info("{}", s2Line.angle(s2LineOther));
