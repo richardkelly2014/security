@@ -6,16 +6,23 @@ public class LRMain {
     public static void main(String[] args) throws IOException {
         // filename
         String filename = "/Users/jiangfei/data.txt";
+
         // 导入样本特征和标签
         double[][] feature = LoadData.Loadfeature(filename);
+        // 标签
         double[] Label = LoadData.LoadLabel(filename);
+
         // 参数设置
         int samNum = feature.length;
         int paraNum = feature[0].length;
+
         double rate = 0.01;
         int maxCycle = 1000;
+
         // LR模型训练
-        LRtrainGradientDescent LR = new LRtrainGradientDescent(feature, Label, paraNum, rate, samNum, maxCycle);
+        LRtrainGradientDescent LR = new LRtrainGradientDescent(feature, Label,
+                paraNum, rate, samNum, maxCycle);
+
         double[] W = LR.Updata(feature, Label, maxCycle, rate);
         //保存模型
         String model_path = "/Users/jiangfei/wrights.txt";

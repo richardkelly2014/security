@@ -12,7 +12,10 @@ public class LRtrainGradientDescent {
     double[] Label;//样本标签
     int maxCycle; //最大迭代次数
 
-    public LRtrainGradientDescent(double[][] feature, double[] Label, int paraNum, double rate, int samNum, int maxCycle) {
+    public LRtrainGradientDescent(double[][] feature,
+                                  double[] Label,
+                                  int paraNum, double rate,
+                                  int samNum, int maxCycle) {
         this.feature = feature;
         this.Label = Label;
         this.maxCycle = maxCycle;
@@ -57,8 +60,10 @@ public class LRtrainGradientDescent {
         // 先计算样本个数和特征个数
         int samNum = feature.length;
         int paraNum = feature[0].length;
+
         //初始化权重矩阵
         double[] W = ParaInitialize(paraNum);
+
         // 循环迭代优化权重矩阵
         for (int i = 0; i < maxCycle; i++) {
             // 每次迭代后，样本预测值
