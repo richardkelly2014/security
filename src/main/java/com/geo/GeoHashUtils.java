@@ -73,12 +73,9 @@ public class GeoHashUtils {
     }
 
 
-
     public static Map<String, Double> bbox(String geoHash) {
         int len = geoHash.length();
         LatLong latLong = GeoHash.decodeHash(geoHash);
-
-        System.out.println(latLong);
 
         LatLngBit bit = bits.get(len);
         int lat_bits = bit.getLatBit();

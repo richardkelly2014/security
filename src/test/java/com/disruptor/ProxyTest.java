@@ -11,10 +11,10 @@ public class ProxyTest {
     @Test
     public void test1() {
 
-        ElectricCar car = new ElectricCar();
+        //ElectricCar car = new ElectricCar();
 
         Vehicle vehicle = (Vehicle) Proxy.newProxyInstance(ClassLoader.getSystemClassLoader(),
-                new Class[]{Vehicle.class}, new InvocationHandlerImpl(car));
+                new Class[]{Vehicle.class}, new InvocationHandlerImpl());
 
         vehicle.drive();
 
