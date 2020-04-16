@@ -1,16 +1,58 @@
 package com.base;
 
 import com.resource.ObjectCleaner;
+import lombok.Builder;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by jiangfei on 2019/10/13.
  */
+@Slf4j
 public class ObjectCleanerTest {
+
+    @Test
+    public void test1() throws IOException {
+
+        t();
+        System.in.read();
+
+    }
+
+    private void t() {
+        A a = create();
+
+        ObjectCleaner.register(a, null);
+        String v = a.getName();
+        //a = null;
+        v = null;
+        a.clean();
+
+        //System.gc();
+    }
+
+
+    public A create() {
+
+        return A.builder().name("12121").build();
+    }
+
+
+    @Data
+    @Builder
+    public static class A {
+        private String name;
+
+        public void clean() {
+            this.name = null;
+        }
+    }
 
     private Thread temporaryThread;
     private Object temporaryObject;
