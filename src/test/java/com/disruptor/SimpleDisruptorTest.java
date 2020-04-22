@@ -1,9 +1,7 @@
 package com.disruptor;
 
 import com.disruptor.simple.*;
-import com.lmax.disruptor.EventFactory;
-import com.lmax.disruptor.RingBuffer;
-import com.lmax.disruptor.YieldingWaitStrategy;
+import com.lmax.disruptor.*;
 import com.lmax.disruptor.dsl.Disruptor;
 import com.lmax.disruptor.dsl.EventHandlerGroup;
 import com.lmax.disruptor.dsl.ProducerType;
@@ -11,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 public class SimpleDisruptorTest {
@@ -19,13 +18,13 @@ public class SimpleDisruptorTest {
     public void test1() throws IOException {
         EventFactory<LongEvent> eventFactory = new LongEventFactory();
 
-        int ringBufferSize = 1024 * 1024; // ringBufferSize 大小，必须是 2 的 N 次方；
+        int ringBufferSize = 2; // ringBufferSize 大小，必须是 2 的 N 次方；
         Disruptor<LongEvent> disruptor = null;
 
         disruptor = new Disruptor(eventFactory, ringBufferSize, new LongThreadFactory(),
-                ProducerType.SINGLE, new YieldingWaitStrategy());
+                ProducerType.MULTI, new BlockingWaitStrategy());
         // 3个 handler 同时消费
-        //disruptor.handleEventsWith(new Handler1(), new Handler2(), new Handler3());
+        disruptor.handleEventsWith(new Handler1()); //, new Handler2(), new Handler3()
 
         // 1 2 先消费，在3 消费
 //        EventHandlerGroup<LongEvent> group = disruptor.handleEventsWith(new Handler1(), new Handler2());
@@ -46,20 +45,40 @@ public class SimpleDisruptorTest {
 //        disruptor.after(handler4, handler5).handleEventsWith(handler3);
 
         // 集群消费，只有一个消费
-        disruptor.handleEventsWithWorkerPool(new Handler1(), new Handler2());
+        //disruptor.handleEventsWithWorkerPool(new Handler1(), new Handler2());
 
         disruptor.start();
-        // 发布事件
-        RingBuffer<LongEvent> ringBuffer = disruptor.getRingBuffer();
-        long sequence = ringBuffer.next();//请求下一个事件序号；
-        try {
-            LongEvent event = ringBuffer.get(sequence);//获取该序号对应的事件对象；
-            event.setValue(123);
-        } finally {
-            ringBuffer.publish(sequence);//发布事件；
+
+        final Disruptor f = disruptor;
+
+        for (int i = 0; i < 500; i++) {
+            final int t = i;
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    //while (true) {
+                    // 发布事件
+                    RingBuffer<LongEvent> ringBuffer = f.getRingBuffer();
+                    //请求下一个事件序号；
+                    //log.info("sequence={}", sequence);
+                    long sequence = ringBuffer.next();
+                    try {
+                        LongEvent event = ringBuffer.get(sequence);//获取该序号对应的事件对象；
+                        event.setValue(t);
+                    } finally {
+                        ringBuffer.publish(sequence);//发布事件；
+                    }
+                    //}
+                }
+            });
+
+            thread.start();
         }
-        disruptor.shutdown();
+
+        log.info("{}", 1111);
 
         System.in.read();
+        disruptor.shutdown();
     }
 }
