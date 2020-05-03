@@ -81,7 +81,7 @@ public class DemoBean implements FactoryBean<JwtAuthenticationResponse>,
 
     @Override
     public boolean isRunning() {
-        return true;
+        return false;
     }
 
     @Override
