@@ -1,6 +1,7 @@
 package com.socket;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.*;
 
 
@@ -14,13 +15,57 @@ public class Server {
         serverSocket.bind(new InetSocketAddress(8888));
 
         // 等待客户端连接
-        Socket client = serverSocket.accept();
+        while (true) {
+            Socket client = serverSocket.accept();
+            client.setSoLinger(true, 0);
+            System.out.println(client.getReuseAddress() + "::" + client.getSoLinger());
 
-        InetAddress clientAddress = client.getInetAddress();
 
-        String ip = toAddressString(clientAddress,true);
+            InetAddress clientAddress = client.getInetAddress();
 
-        System.out.println(clientAddress.toString() + ":" + client.getPort() + "::" + client.getLocalPort());
+            String ip = toAddressString(clientAddress, true);
+
+            System.out.println(ip + ":" + clientAddress.toString() + ":" + client.getPort() + "::" + client.getLocalPort());
+
+            new Thread(new ClientHandler(client)).start();
+        }
+        //System.in.read();
+    }
+
+    private static class ClientHandler implements Runnable {
+
+        Socket client;
+        InputStream inputStream;
+
+        ClientHandler(Socket client) throws IOException {
+            this.client = client;
+            this.inputStream = client.getInputStream();
+        }
+
+        @Override
+        public void run() {
+            try {
+                while (true) {
+                    int readLen = inputStream.read();
+                    System.out.println("=====>" + readLen);
+                    if (readLen < 0) {
+                        break;
+                    }
+                }
+            } catch (SocketException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    client.close();
+                    client = null;
+                    inputStream = null;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public static String toAddressString(InetAddress ip, boolean ipv4Mapped) {
