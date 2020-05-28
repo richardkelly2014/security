@@ -18,7 +18,7 @@ public class Server {
         while (true) {
             Socket client = serverSocket.accept();
             client.setSoLinger(true, 0);
-            System.out.println(client.getReuseAddress() + "::" + client.getSoLinger());
+            //System.out.println(client.getReuseAddress() + "::" + client.getSoLinger());
 
 
             InetAddress clientAddress = client.getInetAddress();
