@@ -114,6 +114,12 @@
             <type>pom</type>
         </dependency>
 
+        <dependency>
+            <groupId>com.aliyun.openservices</groupId>
+            <artifactId>ons-client</artifactId>
+            <version>1.8.5.Final</version>
+        </dependency>
+
     </dependencies>
 
 </project>
