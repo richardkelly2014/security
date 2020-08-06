@@ -22,10 +22,10 @@ public class Logistic {
     /**
      * the number of iterations
      */
-    private int ITERATIONS = 3000;
+    private int ITERATIONS = 1000;
 
     public Logistic(int n) {
-        this.rate = 0.0001;
+        this.rate = 0.001;
         weights = new double[n];
     }
 

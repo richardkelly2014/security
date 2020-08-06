@@ -40,4 +40,14 @@ public class LinearRegression extends Regression {
             }
         } while (former - latter > th);
     }
+
+    public double test(Sample s){
+
+        double val = 0;
+        for (int i = 0; i < paraNum; i++) {
+            val += theta[i] * s.features[i];
+        }
+
+        return val;
+    }
 }

@@ -19,10 +19,10 @@ public abstract class Regression {
     }
 
     public void setPara(double[] para, double learning_rate, double threshold) {
-        paraNum = para.length;
-        theta = para;
-        rate = learning_rate;
-        th = threshold;
+        paraNum = para.length; //参数个数
+        theta = para; //theta
+        rate = learning_rate; //rate
+        th = threshold; //th
     }
 
     public abstract double PreVal(Sample s);
