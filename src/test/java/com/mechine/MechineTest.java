@@ -1,11 +1,13 @@
 package com.mechine;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+@Slf4j
 public class MechineTest {
 
     @Test
@@ -43,7 +45,8 @@ public class MechineTest {
         lr.setPara(para, rate, th);
         lr.Update();
         lr.OutputTheta();
-
+        log.info("{}", para);
+        //System.out.print(lr.test(sam[2]));
     }
 
 }

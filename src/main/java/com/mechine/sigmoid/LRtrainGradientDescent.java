@@ -5,23 +5,20 @@ package com.mechine.sigmoid;
  */
 public class LRtrainGradientDescent {
 
-    int paraNum; //权重参数的个数
-    double rate; //学习率
-    int samNum; //样本个数
-    double[][] feature; //样本特征矩阵
-    double[] Label;//样本标签
-    int maxCycle; //最大迭代次数
+//    int paraNum; //权重参数的个数 3 a b c
+//    double rate; //学习率 0.01
+//    int samNum; //样本个数 200
+//    double[][] feature; //样本特征矩阵
+//    double[] Label;//样本标签
+//    int maxCycle; //最大迭代次数 100
 
-    public LRtrainGradientDescent(double[][] feature,
-                                  double[] Label,
-                                  int paraNum, double rate,
-                                  int samNum, int maxCycle) {
-        this.feature = feature;
-        this.Label = Label;
-        this.maxCycle = maxCycle;
-        this.paraNum = paraNum;
-        this.rate = rate;
-        this.samNum = samNum;
+    public LRtrainGradientDescent() {
+//        this.feature = feature;
+//        this.Label = Label;
+//        this.maxCycle = maxCycle;
+//        this.paraNum = paraNum;
+//        this.rate = rate;
+//        this.samNum = samNum;
     }
 
     // 权值矩阵初始化
@@ -58,8 +55,8 @@ public class LRtrainGradientDescent {
     //LR模型训练
     public double[] Updata(double[][] feature, double[] Label, int maxCycle, double rate) {
         // 先计算样本个数和特征个数
-        int samNum = feature.length;
-        int paraNum = feature[0].length;
+        int samNum = feature.length; // 样本个数
+        int paraNum = feature[0].length; //样本参数
 
         //初始化权重矩阵
         double[] W = ParaInitialize(paraNum);
