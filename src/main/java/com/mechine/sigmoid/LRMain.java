@@ -5,7 +5,7 @@ import java.io.IOException;
 public class LRMain {
     public static void main(String[] args) throws IOException {
         // filename
-        String filename = "/Users/jiangfei/data1.txt";
+        String filename = "/Users/jiangfei/data.txt";
 
         // 导入样本特征和标签
         double[][] feature = LoadData.Loadfeature(filename);
