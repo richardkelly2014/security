@@ -1,0 +1,12 @@
+package com.geohash;
+
+public enum GeoDirection {
+    GEOHASH_NORTH,
+    GEOHASH_EAST,
+    GEOHASH_WEST,
+    GEOHASH_SOUTH,
+    GEOHASH_SOUTH_WEST,
+    GEOHASH_SOUTH_EAST,
+    GEOHASH_NORT_WEST,
+    GEOHASH_NORT_EAST
+}
