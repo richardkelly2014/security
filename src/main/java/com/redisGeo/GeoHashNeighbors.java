@@ -1,4 +1,5 @@
-package com.geohash;
+package com.redisGeo;
+
 
 /**
  * 相邻geohash

@@ -1,6 +1,8 @@
-package com.geohash;
+package com.redisGeo;
 
+import lombok.ToString;
 
+@ToString
 public class GeoHashRange {
     public double min;
     public double max;
@@ -9,6 +11,9 @@ public class GeoHashRange {
         this.max = max;
         this.min = min;
 
+    }
+
+    public GeoHashRange() {
     }
 
 }

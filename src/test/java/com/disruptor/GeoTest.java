@@ -2,9 +2,10 @@ package com.disruptor;
 
 import com.geo.GeoHashUtils;
 import com.geo.LatitudeAndLongitudeUtils;
-import com.geohash.GeoHash;
-import com.geohash.GeoHashBits;
 import com.github.davidmoten.geo.Base32;
+import com.redisGeo.GeoHash;
+import com.redisGeo.GeoHashArea;
+import com.redisGeo.GeoHashBits;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -41,14 +42,18 @@ public class GeoTest {
     @Test
     public void test2() {
         GeoHash geoHash = new GeoHash();
-        GeoHashBits geoHashBits = new GeoHashBits();
 
-        System.out.println(geoHash.geohashEncodeWGS84(116.354885, 39.940715, 26, geoHashBits));
+        GeoHashBits bits = new GeoHashBits();
+        geoHash.geohashEncodeWGS84(116.354885, 39.940715, bits);
 
-        System.out.println(geoHash.geohashAlign52Bits(geoHashBits));
+        log.info("{}", bits);
+        GeoHashArea area = new GeoHashArea();
+        geoHash.geohashDecodeWGS84(bits, area);
+        log.info("{}", area);
 
-        geoHash.geohashGetAreasByRadius(116.354885, 39.940715,3000);
-
+        double[] xy = new double[2];
+        geoHash.geohashDecodeToLongLatWGS84(bits, xy);
+        log.info("{}", xy);
     }
 
     @Test

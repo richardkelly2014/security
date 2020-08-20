@@ -1,4 +1,4 @@
-package com.geohash;
+package com.redisGeo;
 
 public enum GeoDirection {
     GEOHASH_NORTH,
