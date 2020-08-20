@@ -42,6 +42,42 @@ public class GeoHash {
         return geohashDecodeAreaToLongLat(area, xy);
     }
 
+    //周边
+    public void geohashNeighbors(GeoHashBits hash, GeoHashNeighbors neighbors) {
+        neighbors.east = hash.cl();
+        neighbors.west = hash.cl();
+        neighbors.north = hash.cl();
+        neighbors.south = hash.cl();
+        neighbors.south_east = hash.cl();
+        neighbors.south_west = hash.cl();
+        neighbors.north_east = hash.cl();
+        neighbors.north_west = hash.cl();
+
+        geohash_move_x(neighbors.east, 1);
+        geohash_move_y(neighbors.east, 0);
+
+        geohash_move_x(neighbors.west, -1);
+        geohash_move_y(neighbors.west, 0);
+
+        geohash_move_x(neighbors.south, 0);
+        geohash_move_y(neighbors.south, -1);
+
+        geohash_move_x(neighbors.north, 0);
+        geohash_move_y(neighbors.north, 1);
+
+        geohash_move_x(neighbors.north_west, -1);
+        geohash_move_y(neighbors.north_west, 1);
+
+        geohash_move_x(neighbors.north_east, 1);
+        geohash_move_y(neighbors.north_east, 1);
+
+        geohash_move_x(neighbors.south_east, 1);
+        geohash_move_y(neighbors.south_east, -1);
+
+        geohash_move_x(neighbors.south_west, -1);
+        geohash_move_y(neighbors.south_west, -1);
+    }
+
     int geohashEncode(GeoHashRange longRange, GeoHashRange latRange,
                       double longitude, double latitude, int step, GeoHashBits hash) {
         if (hash == null) {
@@ -195,6 +231,44 @@ public class GeoHash {
         y = (y | (y >> S[5])) & B[5];
 
         return x | (y << 32);
+    }
+
+    static void geohash_move_x(GeoHashBits hash, int d) {
+        if (d == 0)
+            return;
+
+        long x = hash.bits & 0xaaaaaaaaaaaaaaaal;
+        long y = hash.bits & 0x5555555555555555l;
+
+        long zz = 0x5555555555555555l >> (64 - hash.step * 2);
+
+        if (d > 0) {
+            x = x + (zz + 1);
+        } else {
+            x = x | zz;
+            x = x - (zz + 1);
+        }
+
+        x &= (0xaaaaaaaaaaaaaaaal >> (64 - hash.step * 2));
+        hash.bits = (x | y);
+    }
+
+    static void geohash_move_y(GeoHashBits hash, int d) {
+        if (d == 0)
+            return;
+
+        long x = hash.bits & 0xaaaaaaaaaaaaaaaal;
+        long y = hash.bits & 0x5555555555555555l;
+
+        long zz = 0xaaaaaaaaaaaaaaaal >> (64 - hash.step * 2);
+        if (d > 0) {
+            y = y + (zz + 1);
+        } else {
+            y = y | zz;
+            y = y - (zz + 1);
+        }
+        y &= (0x5555555555555555l >> (64 - hash.step * 2));
+        hash.bits = (x | y);
     }
 
 
