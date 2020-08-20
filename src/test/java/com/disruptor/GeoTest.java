@@ -6,6 +6,7 @@ import com.github.davidmoten.geo.Base32;
 import com.redisGeo.GeoHash;
 import com.redisGeo.GeoHashArea;
 import com.redisGeo.GeoHashBits;
+import com.redisGeo.GeohashHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -54,6 +55,12 @@ public class GeoTest {
         double[] xy = new double[2];
         geoHash.geohashDecodeToLongLatWGS84(bits, xy);
         log.info("{}", xy);
+    }
+
+    @Test
+    public void test4() {
+        GeohashHelper helper = new GeohashHelper();
+        helper.geohashGetAreasByRadiusWGS84(116.354885, 39.940715, 3000);
     }
 
     @Test

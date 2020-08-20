@@ -1,9 +1,12 @@
 package com.redisGeo;
 
 
+import lombok.ToString;
+
 /**
  * 相邻geohash
  */
+@ToString
 public class GeoHashNeighbors {
     public GeoHashBits north;
     public GeoHashBits east;
