@@ -30,6 +30,11 @@ public class GeoHash {
         return geohashEncode(longRange, latRange, longitude, latitude, GEO_STEP_MAX, hash);
     }
 
+    public int geohashEncodeWGS84(double longitude, double latitude, int step, GeoHashBits hash) {
+
+        return geohashEncode(longRange, latRange, longitude, latitude, step, hash);
+    }
+
     public int geohashDecodeWGS84(GeoHashBits hash, GeoHashArea area) {
         return geohashDecode(longRange, latRange, hash, area);
     }

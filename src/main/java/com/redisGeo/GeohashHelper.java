@@ -51,13 +51,77 @@ public class GeohashHelper {
         //估算step
         steps = geohashEstimateStepsByRadius(radius_meters, latitude);
 
-        geoHash.geohashEncodeWGS84(longitude, latitude, hash);
+        //计算hash
+        geoHash.geohashEncodeWGS84(longitude, latitude, steps, hash);
 
+        //hash周围hash
         geoHash.geohashNeighbors(hash, neighbors);
 
-        log.info("{}", neighbors);
+        //hash，解码区域
+        geoHash.geohashDecodeWGS84(hash, area);
 
-        return null;
+        int decrease_step = 0;
+        {
+            GeoHashArea north = new GeoHashArea(), south = new GeoHashArea(), east = new GeoHashArea(), west = new GeoHashArea();
+
+            geoHash.geohashDecodeWGS84(neighbors.north, north);
+            geoHash.geohashDecodeWGS84(neighbors.south, south);
+            geoHash.geohashDecodeWGS84(neighbors.east, east);
+            geoHash.geohashDecodeWGS84(neighbors.west, west);
+
+
+            if (geohashGetDistance(longitude, latitude, longitude, north.latitude.max)
+                    < radius_meters) {
+                decrease_step = 1;
+            }
+            if (geohashGetDistance(longitude, latitude, longitude, south.latitude.min)
+                    < radius_meters) {
+                decrease_step = 1;
+            }
+            if (geohashGetDistance(longitude, latitude, east.longitude.max, latitude)
+                    < radius_meters) {
+                decrease_step = 1;
+            }
+            if (geohashGetDistance(longitude, latitude, west.longitude.min, latitude)
+                    < radius_meters) {
+                decrease_step = 1;
+            }
+        }
+
+        if (steps > 1 && decrease_step > 0) {
+            steps--;
+            geoHash.geohashEncodeWGS84(longitude, latitude, steps, hash);
+            geoHash.geohashNeighbors(hash, neighbors);
+            geoHash.geohashDecodeWGS84(hash, area);
+        }
+
+        /* Exclude the search areas that are useless. */
+        if (steps >= 2) {
+            if (area.latitude.min < min_lat) {
+                GZERO(neighbors.south);
+                GZERO(neighbors.south_west);
+                GZERO(neighbors.south_east);
+            }
+            if (area.latitude.max > max_lat) {
+                GZERO(neighbors.north);
+                GZERO(neighbors.north_east);
+                GZERO(neighbors.north_west);
+            }
+            if (area.longitude.min < min_lon) {
+                GZERO(neighbors.west);
+                GZERO(neighbors.south_west);
+                GZERO(neighbors.north_west);
+            }
+            if (area.longitude.max > max_lon) {
+                GZERO(neighbors.east);
+                GZERO(neighbors.south_east);
+                GZERO(neighbors.north_east);
+            }
+        }
+        radius.hash = hash;
+        radius.neighbors = neighbors;
+        radius.area = area;
+        return radius;
     }
 
     //估算step
