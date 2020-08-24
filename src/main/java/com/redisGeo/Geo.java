@@ -62,7 +62,7 @@ public class Geo {
      * @param latitude
      * @param key
      */
-    public void add(double longitude, double latitude, Integer key) {
+    public synchronized void add(double longitude, double latitude, Integer key) {
         GeoHashBits hash = new GeoHashBits();
         geoHash.geohashEncodeWGS84(longitude, latitude, hash);
 
@@ -92,7 +92,7 @@ public class Geo {
      *
      * @param key
      */
-    public void remove(Integer key) {
+    public synchronized void remove(Integer key) {
         if (keyScores.containsKey(key)) {
 
             long score = keyScores.remove(key);
@@ -141,7 +141,10 @@ public class Geo {
             for (Map.Entry<Long, ConcurrentMap<Integer, Long>> element : subMap.entrySet()) {
                 long score = element.getKey();
                 ConcurrentMap<Integer, Long> keys = element.getValue();
-                geoAppendIfWithinRadius(lon, lat, radius, score);
+                int flag = geoAppendIfWithinRadius(lon, lat, radius, score);
+                if (flag > 0) {
+                    log.info("{},{}", score, keys);
+                }
             }
 
             return 1;
@@ -154,9 +157,13 @@ public class Geo {
     int geoAppendIfWithinRadius(double lon, double lat, double radius, long score) {
 
         double[] xy = new double[2];
+        decodeGeohash(score, xy);
 
         double distance = helper.geohashGetDistance(lon, lat, xy[0], xy[1]);
-        log.info("{},{}", distance, radius);
+        log.info("{},{},{}", score, distance, radius);
+        if (distance > radius) {
+            return 0;
+        }
         return 1;
     }
 
