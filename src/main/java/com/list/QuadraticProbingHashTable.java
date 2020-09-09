@@ -56,6 +56,11 @@ public class QuadraticProbingHashTable<AnyType> {
         array = new HashEntry[arraySize];
     }
 
+    /**
+     *
+     * @param currentPos
+     * @return
+     */
     private boolean isActive(int currentPos) {
         return array[currentPos] != null && array[currentPos].isActive;
     }
