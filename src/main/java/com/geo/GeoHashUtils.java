@@ -67,6 +67,12 @@ public class GeoHashUtils {
         return GeoHash.encodeHash(latitude, longitude, length);
     }
 
+    public static String geoHash(final double longitude,
+                                 final double latitude,
+                                 final int length) {
+        return GeoHash.encodeHash(latitude, longitude, length);
+    }
+
     public static List<String> getNeighboursGeoHashList(final String geoHash) {
 
         return GeoHash.neighbours(geoHash);
