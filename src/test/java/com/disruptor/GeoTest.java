@@ -15,24 +15,29 @@ public class GeoTest {
     @Test
     public void test1() {
 
-        String geoHash = GeoHashUtils.getGeoHash(39.940715, 116.354885, 12);
+        //,
 
+        String geoHash = GeoHashUtils.getGeoHash(38.884898, 115.522569, 6);
+
+        log.info("{}", GeoHashUtils.geoHash(115.469651,38.87593, 6));
+
+        log.info("{}", com.github.davidmoten.geo.GeoHash.decodeHash(geoHash));
 
         System.out.println("====>" + geoHash);
 
 //        System.out.println(Base32.decodeBase32("wx4g8s000000"));
 //        System.out.println(Base32.decodeBase32("wx4gbs000000"));
 //        System.out.println(Base32.decodeBase32("wx4exs000000"));
-        System.out.println(Base32.decodeBase32("wx4epwzp92ft"));
+        //System.out.println(Base32.decodeBase32("wx4epwzp92ft"));
 //
-        System.out.println(Base32.encodeBase32(1041613197650725337L));
+        // System.out.println(Base32.encodeBase32(1041613197650725337L));
 
 //        System.out.println(GeoHashUtils.getNeighboursGeoHashList(geoHash));
 //
-//        System.out.println("=====>" + GeoHashUtils.bbox(geoHash));
+        System.out.println("=====>" + GeoHashUtils.bbox(geoHash));
 
-        System.out.println(LatitudeAndLongitudeUtils.calculateDistanceAccurateToMeter(116.354885, 39.940715,
-                0.0, 0.0));
+//        System.out.println(LatitudeAndLongitudeUtils.calculateDistanceAccurateToMeter(116.354885, 39.940715,
+//                0.0, 0.0));
 
 
     }
