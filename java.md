@@ -37,3 +37,12 @@
     1. jdk动态代理。在 Java 动态代理机制中 InvocationHandler 接口和 Proxy 类是核心
     2. CGLIB 动态代理机制 在 CGLIB 动态代理机制中 MethodInterceptor 接口和 Enhancer 类是核心.
        CGLIB 通过继承方式实现代理.
+       
+###BIO,NIO,AIO 总结
+    1.同步/异步是从行为角度描述事物的，而阻塞和非阻塞描述的当前事物的状态
+
+###集合(List,Set,Map)
+    1.list: Arraylist(Object[]数组),LinkedList(双向链表)
+    2.map : HashMap (数组和链表或红黑树组成)
+    3. ArrayList 扩容机制
+    4. 红黑树
